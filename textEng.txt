@@ -1,6 +1,6 @@
 It is necessary to know that when using Serializable, deserialization occurs as follows: the object is allocated memory. After that its fields are filled with values ??from the stream.
 The object's constructor is not called.
-/* # 6 # serializable class # Student.java * /
+/* # 6 # serializable class # Student.java */
 package by.bsu.serial;
 import java.io.Serializable;
 public class Student implements Serializable {
@@ -20,9 +20,11 @@ this.password = password;
  return "\ nfaculty" + faculty + "\ nname" + name + "\ nID" + id + "\ npassword" + password;
  }
 }
+/###/
 If the class field is a reference to another type, then it is necessary. That the aggregated type also implements the Serializable interface, otherwise when you try to serialize an object of this class, the NotSerializableException will be thrown.
+In the second case, the smallest number of symbols is selected for the first group, since a weak match is used.
 /* # 12 # extracting information from the resource file and changing the locale #
-ResourceManagerRun.java * /
+ResourceManagerRun.java */
 package by.bsu.resource;
 import java.util.Locale;
 public class ResourceManagerRun {
@@ -33,6 +35,7 @@ public static void main (String [] args) {
  System.out.println (manager.getString ("str1"));
 }
 }
+/###/
 Qualitatively developed application usually does not contain literals of type String.
 All necessary messages are stored outside the system, in particular, in properties files.
 That allows without recompiling the code painlessly to change any message or information stored outside the system classes.

@@ -2,33 +2,47 @@ package parser;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import entity.Char;
+import entity.CharSeqLief;
 import entity.CharSeqComponent;
-import entity.MyCharSequence;
 
 public class Parser {
 	
-	static final  String PARAGRAPH = "\\S+.*";
+	static final  String PARAGRAPH = "\\S+.*\n*";
+	static final  String LISTING = "/\\* #((?s).*?)/###/";
 	static final  String SENTENCE = "[^.\\.?!]*[\\.?!]\n*";
 	static final  String WORD = "([^(\\s)]*)[\\p{Blank}[\\.\n*][?\n*][!\n*]]";
-	static final  String CHAR = ".{1}";
+	static final  String CHAR = "(?s).{1}";
 	
 	
-	public static MyCharSequence parseText(StringBuilder text){
+	public static CharSeqComponent parseText(StringBuilder text){
 		
 		CharSeqComponent textComponent = new CharSeqComponent();
-		Pattern pattern = Pattern.compile(PARAGRAPH);
-	    Matcher matcher = pattern.matcher(text);
+		
+		Pattern patternParagraph = Pattern.compile(PARAGRAPH);
+	    Matcher matcherParagraph = patternParagraph.matcher(text);
+		
+	    Pattern patternListing = Pattern.compile(LISTING);
+	    Matcher matcherListing = patternListing.matcher(text);
 	    
-	    while (matcher.find()) {
-		      String element = matcher.group();
-		      textComponent.addElement(parseParagrahp(element+"\n"));
+	    while(matcherParagraph.find()) {
+	    	String elementParagraph = matcherParagraph.group();
+	    	if(elementParagraph.startsWith("/* #")) {
+	    		int startPosition = matcherParagraph.start();
+	    		if (matcherListing.find(startPosition)) {
+	    			String elementListing = matcherListing.group();
+	    			textComponent.addElement(new CharSeqLief(elementListing+"\n"));
+	    			int elementListingLength = elementListing.length();
+	    			matcherParagraph.find(startPosition+elementListingLength-1);
+	    		}
+	    		continue;
+	    	}
+	    	textComponent.addElement(Parser.parseParagrahp(elementParagraph));
 	    }
 		return textComponent;
 	}
 
 
-	public static MyCharSequence parseParagrahp(String text) {
+	public static CharSeqComponent parseParagrahp(String text) {
 		
 		CharSeqComponent paragraphComponent = new CharSeqComponent();
 		Pattern pattern = Pattern.compile(SENTENCE);
@@ -43,7 +57,7 @@ public class Parser {
 	}
 
 
-	public static MyCharSequence parseSentence (String text) {
+	public static CharSeqComponent parseSentence (String text) {
 		
 		CharSeqComponent sentenceComponent = new CharSeqComponent();
 		Pattern pattern = Pattern.compile(WORD);
@@ -57,15 +71,15 @@ public class Parser {
 		return sentenceComponent;
 	}
 	
-	public static MyCharSequence parseWord (String text) {
+	public static CharSeqComponent parseWord (String text) {
 		
 		CharSeqComponent wordComponent = new CharSeqComponent();
-		Pattern pattern = Pattern.compile(CHAR, Pattern.DOTALL);
+		Pattern pattern = Pattern.compile(CHAR);
 	    Matcher matcher = pattern.matcher(text);
 	    
 	    while (matcher.find()) {
 		      String element = matcher.group();
-		      wordComponent.addElement(new Char(element));
+		      wordComponent.addElement(new CharSeqLief(element));
 		    }
 		
 		return wordComponent;
