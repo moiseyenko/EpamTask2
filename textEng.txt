@@ -1,0 +1,38 @@
+It is necessary to know that when using Serializable, deserialization occurs as follows: the object is allocated memory. After that its fields are filled with values ??from the stream.
+The object's constructor is not called.
+/* # 6 # serializable class # Student.java * /
+package by.bsu.serial;
+import java.io.Serializable;
+public class Student implements Serializable {
+ protected static String faculty;
+ private String name;
+ private int id;
+ private transient String password;
+ private static final long serialVersionUID = 1L;
+ / * the value of the serialVersionUID field for the class will be explained below * /
+ public Student (String nameOfFaculty, String name, int id, String password) {
+ faculty = nameOfFaculty;
+this.name = name;
+this.id = id;
+this.password = password;
+ }
+ public String toString () {
+ return "\ nfaculty" + faculty + "\ nname" + name + "\ nID" + id + "\ npassword" + password;
+ }
+}
+If the class field is a reference to another type, then it is necessary. That the aggregated type also implements the Serializable interface, otherwise when you try to serialize an object of this class, the NotSerializableException will be thrown.
+/* # 12 # extracting information from the resource file and changing the locale #
+ResourceManagerRun.java * /
+package by.bsu.resource;
+import java.util.Locale;
+public class ResourceManagerRun {
+public static void main (String [] args) {
+ ResourceManager manager = ResourceManager.INSTANCE;
+ System.out.println (manager.getString ("str1"));
+ manager.changeResource (new Locale ("be", "BY"));
+ System.out.println (manager.getString ("str1"));
+}
+}
+Qualitatively developed application usually does not contain literals of type String.
+All necessary messages are stored outside the system, in particular, in properties files.
+That allows without recompiling the code painlessly to change any message or information stored outside the system classes.
