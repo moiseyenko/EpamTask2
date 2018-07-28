@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="Warn">
+  <Appenders>
+  	<Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%highlight{%d{HH:mm:ss} [%t] %level %c{3}: %msg%n%throwable}"/>
+   <Filters>
+                <ThresholdFilter level="ERROR"  onMatch="DENY" onMismatch="ACCEPT"/>
+      </Filters>
+   </Console>
+   <File name="File" fileName="logs/fileLog.log" append="false">
+      <PatternLayout>
+        <Pattern>%d %p %c{-3} [%t] %m%n</Pattern>
+      </PatternLayout>
+      
+    </File>
+  </Appenders>
+  <Loggers>
+  	<Logger name="runner.Runner" level="info" additivity="false">
+  		<AppenderRef ref="Console" />
+  	</Logger>
+  	<Logger name="util.Parser" level="debug" additivity="false">
+  		<AppenderRef ref="File" />
+  	</Logger>
+  	<Logger name="util.Helper" level="debug" additivity="false">
+  		<appender-ref ref="Console" level="info"/>
+  		<appender-ref ref="File"/>
+        
+  	</Logger>
+  	<Root level="error">
+      <AppenderRef ref="File"/>
+    </Root>  
+  </Loggers>
+</Configuration>

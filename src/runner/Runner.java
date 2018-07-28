@@ -1,27 +1,38 @@
 package runner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import entity.CharSeq;
-import executor.Util;
-import parser.Parser;
+import util.Constants;
+import util.Helper;
+import util.Parser;
 
 public class Runner {
-	
-	public static void main(String[] args) {
-		
-		String path = "textEng.txt";
-		StringBuilder filetext = Util.readFile(path);
-		System.out.println(filetext);
-		
-		
-		System.out.println("1)//////////////////////////////////////////////////////////////////");
-		int wordSize = 5;
-		CharSeq words = Util.firstConsonantWordRemove(wordSize, filetext);
-		System.out.println(words.getCharSequence());
-		
-		System.out.println("2)//////////////////////////////////////////////////////////////////");
-		filetext = new StringBuilder(Parser.parseText(filetext).getCharSequence());
-		System.out.println(filetext);
 
+	private static final Logger LOG = LogManager.getLogger(Runner.class);
+
+	public static void main(String[] args) {
+
+		StringBuilder filetext = Helper.readFile(Constants.PATH);
+		if (LOG.isInfoEnabled()) {
+			LOG.info("\n" + filetext);
+		}
+		if (LOG.isInfoEnabled()) {
+			LOG.info(Constants.NEW_LINE + "1)//////////////////////" + Constants.NEW_LINE + "Enter a word size");
+		}
+		int wordSize = Helper.readNumber();
+		CharSeq words = Helper.firstConsonantWordRemove(wordSize, filetext);
+		if (LOG.isInfoEnabled()) {
+			LOG.info("\n" + words.getCharSequence());
+		}
+		if (LOG.isInfoEnabled()) {
+			LOG.info(Constants.NEW_LINE + "2)//////////////////////");
+		}
+		filetext = new StringBuilder(Parser.parseText(filetext).getCharSequence());
+		if (LOG.isInfoEnabled()) {
+			LOG.info(Constants.NEW_LINE + filetext);
+		}
 
 	}
 }

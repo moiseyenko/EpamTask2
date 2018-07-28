@@ -1,9 +1,7 @@
 package entity;
 
-import java.util.List;
-
 public interface CharSeq {
-	
+	// Covert CharSeq component into String
 	String getCharSequence();
-	
+
 }
