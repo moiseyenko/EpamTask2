@@ -14,9 +14,8 @@ import util.Helper;
 public class BaseParser implements Parser {
 
 	private static final Logger LOG = LogManager.getLogger(BaseParser.class);
-
-	Parser next;
-	String regex;
+	private Parser next;
+	private String regex;
 
 	public BaseParser() {
 		if (LOG.isInfoEnabled()) {
@@ -32,16 +31,18 @@ public class BaseParser implements Parser {
 		this.next = next;
 	}
 
+	public Parser getNext() {
+		return next;
+	}
+
 	@Override
 	public Composite parse(String text) {
-
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Start parse with text: \n{}", text);
 		}
 		Composite Component = new Composite();
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(text);
-
 		while (matcher.find()) {
 			String element = matcher.group();
 			Helper.writeText(element, Constants.PATH_RESULT);
@@ -50,13 +51,10 @@ public class BaseParser implements Parser {
 			} else {
 				Component.addElement(next.parse(element));
 			}
-
 		}
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("End parse with Component size: {}", Component.getList().size());
 		}
 		return Component;
-
 	}
-
 }

@@ -45,18 +45,15 @@ public class ParagraphListingParser extends BaseParser {
 				continue;
 			}
 			Helper.writeText("!PARAGRAPH: " + elementParagraph, Constants.PATH_RESULT);
-			if (next == null) {
+			if (getNext() == null) {
 				textComponent.addElement(new Leaf(elementParagraph));
 			} else {
-				textComponent.addElement(next.parse(elementParagraph));
+				textComponent.addElement(getNext().parse(elementParagraph));
 			}
 		}
-
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("End parseText with textComponent size: {}", textComponent.getList().size());
 		}
-
 		return textComponent;
 	}
-
 }

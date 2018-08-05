@@ -77,7 +77,6 @@ public class Helper {
 			LOG.debug("Start firstConsonantWordRemove with wordSize: " + wordSize + " and filetext length: "
 					+ filetext.length());
 		}
-
 		Composite words = new BaseParser(Constants.WORD).parse(filetext.toString());
 		// Composite words = Parser.parseSentence(filetext.toString());
 		List<TextElement> wordList = words.getList();
@@ -104,20 +103,19 @@ public class Helper {
 		return words;
 	}
 
+	//Write text from file with path
 	public static void writeText(String text, String path) {
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File(path), true))) {
 			bw.write(text + "\n");
 		} catch (IOException e) {
 			if (LOG.isErrorEnabled()) {
-				LOG.error(
-						"The file exists or does not exist but cannot be created, or cannot be opened for any other reason",
-						e);
+				LOG.error("The file exists or does not exist but cannot be created, or cannot be opened for any other reason", e);
 			}
 		}
 	}
 
+	//Compose text from parsed text
 	public static void ComposeText(StringBuilder text) {
-
 		Pattern patternParagraph = Pattern.compile(Constants.PARAGRAPH);
 		Matcher matcherParagraph = patternParagraph.matcher(text);
 		Pattern patternListing = Pattern.compile(Constants.LISTING);
@@ -139,5 +137,4 @@ public class Helper {
 			}
 		}
 	}
-
 }
