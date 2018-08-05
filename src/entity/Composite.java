@@ -3,24 +3,24 @@ package entity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CharSeqComponent implements CharSeq {
+public class Composite implements TextElement {
 
-	private List<CharSeq> list;
+	private List<TextElement> list;
 
-	public CharSeqComponent() {
+	public Composite() {
 		list = new ArrayList<>();
 	}
 
 	// add element to list
-	public boolean addElement(CharSeq element) {
+	public boolean addElement(TextElement element) {
 		return list.add(element);
 	}
 
-	public List<CharSeq> getList() {
+	public List<TextElement> getList() {
 		return list;
 	}
 
-	public void setList(List<CharSeq> list) {
+	public void setList(List<TextElement> list) {
 		this.list = list;
 	}
 
@@ -28,7 +28,7 @@ public class CharSeqComponent implements CharSeq {
 	@Override
 	public String getCharSequence() {
 		StringBuilder sb = new StringBuilder();
-		for (CharSeq element : list) {
+		for (TextElement element : list) {
 			sb.append(element.getCharSequence());
 		}
 		return sb.toString();

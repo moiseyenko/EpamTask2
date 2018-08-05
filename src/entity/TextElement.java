@@ -1,6 +1,6 @@
 package entity;
 
-public interface CharSeq {
+public interface TextElement {
 	// Covert CharSeq component into String
 	String getCharSequence();
 

@@ -1,10 +1,10 @@
 package entity;
 
-public class CharSeqLief implements CharSeq {
+public class Leaf implements TextElement {
 
 	private String value;
 
-	public CharSeqLief(String value) {
+	public Leaf(String value) {
 		this.value = value;
 	}
 
